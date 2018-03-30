@@ -1,0 +1,108 @@
+<html>
+
+<head>
+    <title>Image Gallery</title>
+    <link rel="icon" href="favicon.png" type="image/png"/>
+    <link href="https://fonts.googleapis.com/css?family=Molengo|Lekton" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+    <link href="image-gallery.css" rel="stylesheet"/>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-layout-component@4.x.x/dist/aframe-layout-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@4.x.x/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.6.x/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-animation-component@4.x.x/dist/aframe-animation-component.min.js"></script>
+    <script src="https://cdn.rawgit.com/protyze/aframe-asset-on-demand-component/master/dist/aframe-asset-on-demand-component.min.js"></script>
+    <script src="image-gallery.bundle.js"></script>
+</head>
+<body>
+
+<main>
+
+    <div class="headline">Image Gallery</div>
+    <div class="tagline">Explore your 360&deg; (equirectangular) images in the gallery:</div>
+
+    <div class="icons-img-src">
+        <!--<a target="_blank" onclick="DropboxSelector.getAndDisplay()"><i class="fab fa-dropbox"></i></a>-->
+
+        <input type="file" name="file" id="files" multiple onload="FileSelector.register()" accept="image/*"/>
+        <label for="files"><i class="far fa-folder-open"></i></label>
+
+        <a target="_blank" onclick="StaticSelector.getAndDisplay()"><i class="fas fa-spinner"></i></a>
+    </div>
+
+    <div class="aframe-scene">
+
+        <a-scene id="gallery-scene" embedded>
+            <a-assets id="assets">
+                <a-mixin id="transparent" material="color: #EDEDED; opacity: 0.3"></a-mixin>
+            </a-assets>
+
+            <!-- Image menu, images are added on demand. -->
+            <a-entity id="image-menu" layout="radius: 2.5; type: circle; angle: 40; plane: xz" position="0.0 1.8 0.2"
+                      rotation="0 130 0">
+                <a-animation begin="deactivate" attribute="layout.radius" to="11"
+                             easing="linear" dur="1300"></a-animation>
+                <a-animation begin="activate" attribute="layout.radius" from="11" to="2.5"
+                             easing="linear" dur="1300"></a-animation>
+            </a-entity>
+
+            <!-- 360-degree image. -->
+            <a-sky id="image-360" radius="10"></a-sky>
+
+            <!-- Floor. -->
+            <a-ring radius-outer="3" radius-inner="2.5" rotation="-90 0 0" mixin="transparent">
+                <a-ring radius-outer="2" radius-inner="1.5" mixin="transparent">
+                    <a-ring radius-outer="1" radius-inner="0.5" mixin="transparent">
+                    </a-ring>
+                </a-ring>
+            </a-ring>
+
+            <!-- Control panel. -->
+            <a-cone height="1" radius-bottom="0.1" radius-top="0.1" position="0.0 0.5 -1.0"
+                    material="color: #EDEDED; opacity: 0.6">
+                <a-box depth="0.3" height="0.05" width="0.3" position="0.0 0.5 0.0"
+                       material="color: #EDEDED; opacity: 0.6" rotation="0 90 20">
+                    <a-cone image-menu-ctl class="btn-ctp" height="0.03" radius-bottom="0.05" radius-top="0.05"
+                            position="0.0 0.03 0.0"
+                            material="color: green;">
+                        <a-animation begin="click" attribute="position" to="0.0 0.02 0.0"
+                                     easing="linear" dur="1300" fill="backwards"></a-animation>
+                        <a-ring radius-outer="0.05" radius-inner="0.04" position="0.0 0.016 0.0" rotation="-90 0 0"
+                                material="color: black">
+                            <a-circle color="black" radius="0.03"></a-circle>
+                        </a-ring>
+                    </a-cone>
+                </a-box>
+            </a-cone>
+
+            <!-- Camera + Cursor. -->
+            <a-entity position="0 1.6 0">
+                <a-camera>
+                    <a-cursor id="cursor"
+                              geometry="primitive: ring; radiusOuter: 0.025; radiusInner: 0.013"
+                              animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 10"
+                              animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+                              event-set__1="_event: mouseenter; color: #EDEDED"
+                              event-set__2="_event: mouseleave; color: black"
+                              fuse="true"
+                              raycaster="objects: .image, .btn-ctp"></a-cursor>
+                </a-camera>
+            </a-entity>
+        </a-scene>
+
+    </div>
+
+    <div id="photo-credit">
+        <div>Photo Credits:</div>
+        <ul id="photo-credit-list">
+        </ul>
+    </div>
+
+</main>
+
+<!-- Right side github corner (https://github.com/tholman/github-corners) -->
+<a href="http://github.com/bschev/image-gallery" class="github-corner"><svg width="80" height="80" viewBox="0 0 250 250" style="position:absolute;border:0;top:0;right:0;" fill="#000000" color="#EDEDED"><path d="M0 0l115 115h15l12 27 108 108v-250z"/><path d="M128.3 109c-14.5-9.3-9.3-19.4-9.3-19.4 3-6.9 1.5-11 1.5-11-1.3-6.6 2.9-2.3 2.9-2.3 3.9 4.6 2.1 11 2.1 11-2.6 10.3 5.1 14.6 8.9 15.9" fill="#EDEDED" style="transform-origin:130px 106px" class="octo-arm"/><path d="M115 115c-.1.1 3.7 1.5 4.8.4l13.9-13.8c3.2-2.4 6.2-3.2 8.5-3-8.4-10.6-14.7-24.2 1.6-40.6 4.7-4.6 10.2-6.8 15.9-7 .6-1.6 3.5-7.4 11.7-10.9 0 0 4.7 2.4 7.4 16.1 4.3 2.4 8.4 5.6 12.1 9.2 3.6 3.6 6.8 7.8 9.2 12.2 13.7 2.6 16.2 7.3 16.2 7.3-3.6 8.2-9.4 11.1-10.9 11.7-.3 5.8-2.4 11.2-7.1 15.9-16.4 16.4-30 10-40.6 1.6.2 2.8-1 6.8-5 10.8l-11.7 11.6c-1.2 1.2.6 5.4.8 5.3z" fill="#EDEDED" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+</body>
+
+</html>

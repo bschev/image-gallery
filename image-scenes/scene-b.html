@@ -1,0 +1,41 @@
+<html>
+
+<head>
+    <title>Scene B</title>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-entity-generator-component@^3.0.0/dist/aframe-entity-generator-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+</head>
+<body>
+
+<main>
+
+    <a-scene id="gallery-scene">
+        <a-assets>
+
+            <a-mixin id="random-big" geometry="primitive: sphere" material="color: white"
+                     random-position random-rotation random-scale="min:0.1 0.1 0.1; max: 0.7 0.7 0.7"
+                     random-spherical-position="radius: 9;">
+            </a-mixin>
+            <a-mixin id="random-small" geometry="primitive: sphere"
+                     random-position random-rotation random-scale="min:0.1 0.1 0.1; max: 0.5 0.5 0.5"
+                     random-spherical-position="radius: 7;">
+            </a-mixin>
+        </a-assets>
+
+        <a-sky radius="10" material="color: black">
+            <a-entity entity-generator="mixin: random-big; num: 800"></a-entity>
+
+            <a-sphere radius="8" material="opacity: 0.0">
+                <a-entity entity-generator="mixin: random-small; num: 200"></a-entity>
+            </a-sphere>
+        </a-sky>
+
+        <a-entity position="0 1.6 0" camera look-controls></a-entity>
+    </a-scene>
+
+</main>
+
+</body>
+
+</html>
