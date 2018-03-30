@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "360° image gallery.",
   "scripts": {
-    "build": "cross-env NODE_ENV=dev webpack",
-    "start": "webpack-dev-server --host 0.0.0.0",
+    "build": "webpack --mode production --output ./dist/image-gallery.js",
+    "start": "webpack-dev-server --mode development --output ./dist/image-gallery.js --open",
     "lint": "semistandard -v | snazzy"
   },
   "repository": "bschev/image-gallery",
@@ -19,8 +19,9 @@
     "cross-env": "^2.0.1",
     "semistandard": "^9.2.1",
     "snazzy": "^7.0.0",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.10.0"
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13",
+    "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {}
 }

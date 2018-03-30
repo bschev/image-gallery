@@ -24,10 +24,9 @@ Run application:
 $ npm start
 ...
 ...
-Project is running at http://0.0.0.0:8080/
+ ｢wds｣: Project is running at http://localhost:8080/
+...
 ```
-[http://0.0.0.0:8080/](http://0.0.0.0:8080/)
-
 
 ### Credits
 
